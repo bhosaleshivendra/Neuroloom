@@ -4,6 +4,7 @@ frontend/dist/
 
 # Backend
 backend/node_modules/
+backend/neuroloom.http
 
 # Environment files
 frontend/.env
