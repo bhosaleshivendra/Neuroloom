@@ -1,25 +1,32 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import { API_URL } from "./config";
 
 function App() {
   const [message, setMessage] = useState("Loading...");
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/test`)
-      .then((response) => response.json())
-      .then((data) => {
+    async function getData() {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/test`
+        );
+
+        const data = await response.json();
+
         setMessage(data.message);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error(error);
         setMessage("Failed to connect to backend");
-      });
+      }
+    }
+
+    getData();
   }, []);
 
   return (
-    <div style={{ padding: "30px", fontSize: "24px" }}>
-      <h1>React + Express Test</h1>
-      <p>{message}</p>
+    <div>
+      <h1>{message}</h1>
     </div>
   );
 }

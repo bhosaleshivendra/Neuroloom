@@ -14,7 +14,7 @@ app.get("/", (req, res) => {
 app.get("/api/test", (req, res) => {
     res.json({
         success: true,
-        message: "Frontend and Backend are connected successfully!"
+        message: "Hello Neuroloom"
     });
 });
 
