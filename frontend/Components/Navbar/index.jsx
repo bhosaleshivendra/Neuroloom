@@ -33,11 +33,11 @@ const Sidebar=()=> {
   return (
     <aside
       className={`bg-gray-100 text-gray-500 border border-gray-300 h-screen transition-all duration-300 ${
-        isOpen ? "w-50" : "w-20"
+        isOpen ? "w-50" : "w-15"
       }`}
     >
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-green-700">
+      <div className={`flex items-center ${isOpen ? "justify-between" : "justify-center"} p-4 border-b border-green-700}`}>
         {isOpen && (
           <Link to="/" className="text-xl font-bold text-green-800">
             NeuroLoom
@@ -46,7 +46,7 @@ const Sidebar=()=> {
 
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="p-2 rounded-lg hover:bg-green-500 text-gray-800 transition-colors cursor-pointer"
+          className={`p-2 rounded-lg hover:bg-green-500 text-gray-800 transition-colors cursor-pointer `}
         >
           <Menu />
         </button>
