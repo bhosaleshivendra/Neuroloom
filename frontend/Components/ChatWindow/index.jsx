@@ -1,4 +1,4 @@
-import Godfather from "../Avatars/Godfather";
+import Avatar from "../Avatar";
 
 const ChatWindow = ({ onClose }) => {
   return (

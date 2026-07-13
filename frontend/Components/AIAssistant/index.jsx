@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import Godfather from "../Avatars/Godfather";
+import Avatar from "../Avatar";
 import ChatWindow from "../ChatWindow";
 
 const AIAssistant = () => {
@@ -11,7 +11,7 @@ const AIAssistant = () => {
     <>
 
       {!open && (
-        <Godfather
+        <Avatar
           onClick={() => setOpen(true)}
         />
       )}
