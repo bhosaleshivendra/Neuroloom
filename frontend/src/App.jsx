@@ -4,6 +4,8 @@ import Home from '../Components/Home';
 import Sidebar from '../Components/Navbar';
 import Employees from '../Components/Employees';
 import Settings from '../Components/Settings';
+import Analytics from '../Components/Analytics';
+import Projects from '../Components/Projects';
 
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 
@@ -21,6 +23,8 @@ const App = () => {
               <Route path="/" element={<Home />} />
               <Route path="/employees" element={<Employees />} />
               <Route path="/settings" element={<Settings />} />
+              <Route path="/analytics" element={<Analytics />} />
+              <Route path="/projects" element={<Projects />} />
             </Routes>
           </main>
         </div>
