@@ -5,7 +5,7 @@ const Header = () => {
   const isLoggedIn = true; // Replace with your auth state later
 
   return (
-    <header className="h-10 bg-white flex items-center justify-between px-6">
+    <header className="h-10 bg-white flex items-center justify-between px-6 border-b border-gray-700 bg-gray-300">
 
       {isLoggedIn ? (
         <button className="flex items-center gap-2 ml-auto cursor-pointer">
