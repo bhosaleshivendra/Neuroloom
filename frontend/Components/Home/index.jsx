@@ -8,6 +8,7 @@ const Home = () => {
       </h1>
       <p className="text-gray-600">
         Welcome to the Employee Management System dashboard.
+
       </p>
     </div>
   );
