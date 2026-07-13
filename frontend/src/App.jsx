@@ -3,6 +3,7 @@ import Header from '../Components/Header';
 import Home from '../Components/Home';
 import Sidebar from '../Components/Navbar';
 import Employees from '../Components/Employees';
+import Settings from '../Components/Settings';
 
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 
@@ -19,6 +20,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/employees" element={<Employees />} />
+              <Route path="/settings" element={<Settings />} />
             </Routes>
           </main>
         </div>
