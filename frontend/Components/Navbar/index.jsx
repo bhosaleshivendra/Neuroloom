@@ -7,6 +7,8 @@ import {
   LayoutDashboard,
   Settings,
   IdCardLanyard,
+  BriefcaseBusiness,
+  ChartNoAxesCombined
 } from "lucide-react";
 
 const Sidebar=()=> {
@@ -22,6 +24,17 @@ const Sidebar=()=> {
       title: "Employees",
       icon: <IdCardLanyard size={20} />,
       path: "/employees",
+    },
+    
+    {
+      title: "Projects",
+      icon: <BriefcaseBusiness size={20} />,
+      path: "/projects",
+    },
+    {
+      title: "Analytics",
+      icon: <ChartNoAxesCombined size={20} />,
+      path: "/analytics",
     },
     {
       title: "Settings",
