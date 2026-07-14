@@ -7,9 +7,11 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import "./index.css";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
-  const isLoggedIn = true;
+  const navigate = useNavigate();
+  const isLoggedIn = false;
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
@@ -57,19 +59,12 @@ const Header = () => {
         </div>
       ) : (
         <div className="flex gap-4 ml-auto">
-          <Link
-            to="/login"
-            className="px-2 py-1 rounded-lg bg-red-500 hover:bg-red-600 transition-colors font-bold text-white text-sm"
+          <div
+            onClick={() => navigate("/sign-in")}
+            className="px-2 py-1 rounded-lg bg-red-500 hover:bg-red-600 transition-colors font-bold text-white text-sm cursor-pointer flex items-center gap-2"
           >
-            Login
-          </Link>
-
-          <Link
-            to="/signup"
-            className="px-2 py-1 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors font-bold text-sm"
-          >
-            Sign Up
-          </Link>
+            Sign-in
+          </div>
         </div>
       )}
     </header>

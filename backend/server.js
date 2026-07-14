@@ -1,35 +1,35 @@
 const express = require("express");
-const dotEnv = require('dotenv')
-const mongoose = require('mongoose')
+const dotenv = require("dotenv");
+const mongoose = require("mongoose");
+const cors = require("cors");
 const dns = require('dns');
-const User = require("./models/User");
 
 dns.setServers([
         '1.1.1.1',
     '8.8.8.8'
 ]);
 
+dotenv.config();
+
 const app = express();
 
+app.use(cors());
 app.use(express.json());
-dotEnv.config()
 
-mongoose.connect(process.env.MONGODB_URL)
-  .then(async () => {
-    console.log("MongoDB Connected");
+mongoose
+  .connect(process.env.MONGODB_URL)
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.log(err));
+const authRoutes = require("./routes/authRoutes");
 
-    await User.create({
-      name: "Shivendra",
-      email: "shivendra@example.com",
-    });
+app.use("/api/auth", authRoutes);
 
-    console.log("User inserted");
-  })
-  .catch((err) => console.error(err));
+app.get("/", (req, res) => {
+  res.send("Backend Running");
+});
 
-
-const PORT =3000;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on ${PORT}`);
 });
