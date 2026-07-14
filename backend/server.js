@@ -18,7 +18,10 @@ app.use(express.json());
 
 mongoose
   .connect(process.env.MONGODB_URL)
-  .then(() => console.log("MongoDB Connected"))
+  .then(() => {
+    console.log("MongoDB Connected");
+    console.log("Connected Database:", mongoose.connection.name);
+  })
   .catch((err) => console.log(err));
 const authRoutes = require("./routes/authRoutes");
 
@@ -28,7 +31,7 @@ app.get("/", (req, res) => {
   res.send("Backend Running");
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT||3000;
 
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
