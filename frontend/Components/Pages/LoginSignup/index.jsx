@@ -53,9 +53,16 @@ export default function LoginSignup() {
 
     } catch(error){
 
-      console.log(error.response?.data);
+      console.log("Full Error:", error);
 
-      alert("Signup Failed");
+  if (error.response) {
+    console.log("Status:", error.response.status);
+    console.log("Data:", error.response.data);
+    alert(error.response.data.message || "Signup Failed");
+  } else {
+    console.log(error.message);
+    alert(error.message);
+  }
 
     }
 
