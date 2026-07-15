@@ -8,15 +8,23 @@ import jazz from "../assets/autobots/jazz.png";
 import mirage from "../assets/autobots/mirage.png";
 import wheeljack from "../assets/autobots/wheeljack.png";
 import arcee from "../assets/autobots/arcee.png";
+
+
 export const autobots = [
+
   {
     id: 1,
     name: "Prime",
     image: prime,
     role: "Chief Autobot",
     department: "Leadership",
+
+    fixed: true,
+    availableForHire: false,
+
     description:
       "Leads the entire AI workforce and coordinates all business operations across departments.",
+
     skills: [
       "Leadership",
       "Decision Making",
@@ -25,14 +33,20 @@ export const autobots = [
     ],
   },
 
+
   {
     id: 2,
     name: "Bumblebee",
     image: bumblebee,
     role: "Marketing Specialist",
     department: "Marketing",
+
+    fixed: false,
+    availableForHire: true,
+
     description:
       "Creates marketing campaigns, social media content, and customer engagement strategies.",
+
     skills: [
       "Marketing",
       "Branding",
@@ -41,14 +55,20 @@ export const autobots = [
     ],
   },
 
+
   {
     id: 3,
     name: "Ratchet",
     image: ratchet,
     role: "HR Manager",
     department: "Human Resources",
+
+    fixed: false,
+    availableForHire: true,
+
     description:
       "Monitors employee well-being, onboarding, documentation, and company policies.",
+
     skills: [
       "Recruitment",
       "Employee Support",
@@ -57,14 +77,20 @@ export const autobots = [
     ],
   },
 
+
   {
     id: 4,
     name: "Ironhide",
     image: ironhide,
     role: "Cybersecurity Expert",
     department: "Security",
+
+    fixed: false,
+    availableForHire: true,
+
     description:
       "Protects company systems, monitors threats, and ensures business data remains secure.",
+
     skills: [
       "Cyber Security",
       "Threat Detection",
@@ -73,14 +99,20 @@ export const autobots = [
     ],
   },
 
+
   {
     id: 5,
     name: "Jazz",
     image: jazz,
     role: "Sales Manager",
     department: "Sales",
+
+    fixed: false,
+    availableForHire: true,
+
     description:
       "Handles customer relationships, lead generation, and sales forecasting.",
+
     skills: [
       "Sales",
       "CRM",
@@ -89,14 +121,20 @@ export const autobots = [
     ],
   },
 
+
   {
     id: 6,
     name: "Mirage",
     image: mirage,
     role: "UI/UX Designer",
     department: "Design",
+
+    fixed: false,
+    availableForHire: true,
+
     description:
       "Designs beautiful user interfaces and improves the overall user experience.",
+
     skills: [
       "UI Design",
       "UX Research",
@@ -105,14 +143,20 @@ export const autobots = [
     ],
   },
 
+
   {
     id: 7,
     name: "Wheeljack",
     image: wheeljack,
     role: "Software Engineer",
     department: "Engineering",
+
+    fixed: false,
+    availableForHire: true,
+
     description:
       "Builds software features, fixes bugs, and develops intelligent automation tools.",
+
     skills: [
       "JavaScript",
       "React",
@@ -121,14 +165,20 @@ export const autobots = [
     ],
   },
 
+
   {
     id: 8,
     name: "Arcee",
     image: arcee,
     role: "Customer Support Specialist",
     department: "Support",
+
+    fixed: false,
+    availableForHire: true,
+
     description:
       "Resolves customer issues, answers questions, and improves customer satisfaction.",
+
     skills: [
       "Support",
       "Problem Solving",
@@ -136,6 +186,8 @@ export const autobots = [
       "CRM",
     ],
   },
+
 ];
+
 
 export default autobots;

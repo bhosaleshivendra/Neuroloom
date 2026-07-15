@@ -1,62 +1,271 @@
 import "./index.css";
-import {
-  BriefcaseBusiness,
-  Building2,
-  Circle,
-} from "lucide-react";
+
 
 export default function EmployeeCard({ employee }) {
+
   return (
-    <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
 
-      {/* Avatar */}
+    <div
+      className="
+        group
+        relative
+        w-44
+      "
+    >
 
-      <img
-        src={employee.image}
-        alt={employee.name}
-        className="w-16 h-16 rounded-2xl object-cover border border-slate-200 bg-slate-100"
-      />
 
-      {/* Name */}
 
-      <h2 className="text-2xl font-semibold text-slate-900 mt-5">
-        {employee.name}
-      </h2>
+      {/* Main Card */}
 
-      {/* Role */}
+      <div
+        className="
+          bg-white
+          rounded-2xl
+          shadow-md
+          p-5
+          flex
+          flex-col
+          items-center
+          transition-all
+          duration-300
+          hover:shadow-lg
+          hover:-translate-y-1
+          cursor-pointer
+        "
+      >
 
-      <div className="flex items-center gap-2 mt-4 text-slate-600">
-        <BriefcaseBusiness size={17} />
-        <span>{employee.role}</span>
+
+
+        {/* Image Container */}
+
+        <div
+          className="
+            w-28
+            h-28
+            bg-slate-100
+            rounded-2xl
+            flex
+            items-center
+            justify-center
+            p-2
+          "
+        >
+
+          <img
+
+            src={employee.image}
+
+            alt={employee.name}
+
+            className="
+              w-full
+              h-full
+              object-contain
+            "
+
+          />
+
+        </div>
+
+
+
+
+
+        {/* Name */}
+
+        <h3
+          className="
+            mt-4
+            text-sm
+            font-semibold
+            text-slate-800
+            text-center
+          "
+        >
+          {employee.name}
+        </h3>
+
+
+
       </div>
 
-      {/* Department */}
 
-      <div className="flex items-center gap-2 mt-2 text-slate-600">
-        <Building2 size={17} />
-        <span>{employee.department}</span>
+
+
+
+
+
+
+
+      {/* Hover Dropdown */}
+
+      <div
+        className="
+          absolute
+          z-[9999]
+          top-full
+          left-1/2
+          -translate-x-1/2
+          mt-4
+
+          w-64
+
+          bg-white
+          border
+          border-slate-200
+
+          rounded-2xl
+
+          shadow-xl
+
+          p-5
+
+
+          opacity-0
+          invisible
+
+          group-hover:opacity-100
+          group-hover:visible
+
+          transition-all
+          duration-300
+        "
+      >
+
+
+
+
+        <h2
+          className="
+            text-lg
+            font-bold
+            text-slate-900
+            text-center
+          "
+        >
+          {employee.name}
+        </h2>
+
+
+
+
+
+        <p
+          className="
+            text-sm
+            text-indigo-600
+            font-medium
+            text-center
+            mt-1
+          "
+        >
+          {employee.role}
+        </p>
+
+
+
+
+
+
+        <p
+          className="
+            text-sm
+            text-slate-500
+            text-center
+            mt-1
+          "
+        >
+          {employee.department}
+        </p>
+
+
+
+
+
+
+
+        {/* Description */}
+
+        {
+          employee.description && (
+
+            <p
+              className="
+                mt-4
+                text-xs
+                text-slate-600
+                leading-5
+              "
+            >
+
+              {employee.description}
+
+            </p>
+
+          )
+        }
+
+
+
+
+
+
+
+        {/* Skills */}
+
+        {
+          employee.skills && (
+
+            <div
+              className="
+                flex
+                flex-wrap
+                gap-2
+                mt-4
+              "
+            >
+
+              {
+                employee.skills.map((skill,index)=>(
+
+                  <span
+
+                    key={index}
+
+                    className="
+                      bg-slate-100
+                      text-slate-700
+                      text-xs
+                      px-3
+                      py-1
+                      rounded-full
+                    "
+
+                  >
+
+                    {skill}
+
+                  </span>
+
+                ))
+              }
+
+
+            </div>
+
+          )
+        }
+
+
+
+
+
       </div>
 
-      {/* Status */}
 
-      <div className="flex items-center gap-2 mt-6">
-        <Circle
-          size={10}
-          fill="#22c55e"
-          className="text-green-500"
-        />
-
-        <span className="text-sm text-slate-500">
-          Active
-        </span>
-      </div>
-
-      {/* Footer */}
-
-      <button className="mt-6 w-full border border-slate-200 rounded-xl py-2.5 text-slate-700 hover:bg-slate-100 transition cursor-pointer">
-        View Profile
-      </button>
 
     </div>
+
   );
+
 }
