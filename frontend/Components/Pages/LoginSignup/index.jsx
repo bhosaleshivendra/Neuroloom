@@ -5,7 +5,8 @@ import {
   Lock,
   User,
   Building2,
-  ArrowRight
+  ArrowRight,
+  Home,
 } from "lucide-react";
 
 import axios from "axios";
@@ -14,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 
 
 export default function LoginSignup() {
+
 
   const navigate = useNavigate();
 
@@ -27,18 +29,25 @@ export default function LoginSignup() {
 
 
 
+
+
   const handleSignup = async () => {
+
 
     try {
 
+
       const response = await axios.post(
+
         `https://neuroloom.onrender.com/api/auth/signup`,
+
         {
           username,
           email,
           password,
           companyName
         }
+
       );
 
 
@@ -48,45 +57,136 @@ export default function LoginSignup() {
       alert("Account Created Successfully");
 
 
-      navigate("/home");
+      navigate("/");
 
 
-    } catch(error){
+
+    } catch(error) {
+
 
       console.log("Full Error:", error);
 
-  if (error.response) {
-    console.log("Status:", error.response.status);
-    console.log("Data:", error.response.data);
-    alert(error.response.data.message || "Signup Failed");
-  } else {
-    console.log(error.message);
-    alert(error.message);
-  }
+
+      if(error.response){
+
+        console.log("Status:",error.response.status);
+
+        console.log("Data:",error.response.data);
+
+
+        alert(
+          error.response.data.message ||
+          "Signup Failed"
+        );
+
+
+      }
+      else{
+
+        console.log(error.message);
+
+        alert(error.message);
+
+      }
+
 
     }
+
 
   };
 
 
 
+
+
+
+
   return (
 
-<div className="min-h-screen flex bg-slate-950 overflow-hidden">
+
+<div
+className="
+min-h-screen
+flex
+bg-slate-950
+overflow-hidden
+relative
+"
+>
 
 
-{/* LEFT */}
 
-<div className="w-1/2 flex items-center justify-center bg-white">
+{/* Back To Home Button */}
+
+<button
+
+onClick={()=>navigate("/")}
+
+className="
+absolute
+top-6
+left-6
+z-50
+flex
+items-center
+gap-2
+bg-white
+text-slate-800
+px-5
+py-3
+rounded-xl
+font-semibold
+shadow-lg
+hover:bg-slate-100
+transition
+cursor-pointer
+"
+
+>
+
+<Home size={18}/>
+
+Home
+
+</button>
+
+
+
+
+
+
+
+
+
+{/* LEFT SIDE */}
+
+
+<div
+className="
+w-1/2
+flex
+items-center
+justify-center
+bg-white
+"
+>
 
 
 <motion.div
 
-initial={{x:-60,opacity:0}}
+initial={{
+x:-60,
+opacity:0
+}}
 
-animate={{x:0,opacity:1}}
+animate={{
+x:0,
+opacity:1
+}}
 
-transition={{duration:.7}}
+transition={{
+duration:.7
+}}
 
 className="w-[430px]"
 
@@ -95,9 +195,18 @@ className="w-[430px]"
 
 <h1 className="text-5xl font-bold">
 
-{login ? "Welcome Back" : "Create Account"}
+
+{
+login
+?
+"Welcome Back"
+:
+"Create Account"
+}
+
 
 </h1>
+
 
 
 <p className="mt-3 text-gray-500">
@@ -108,7 +217,13 @@ AI Powered ERP for modern companies.
 
 
 
+
+
+
 <div className="space-y-5 mt-10">
+
+
+
 
 
 {
@@ -130,6 +245,10 @@ onChange={(e)=>setUsername(e.target.value)}
 
 
 
+
+
+
+
 <Input
 
 icon={<Mail size={20}/>}
@@ -141,6 +260,10 @@ value={email}
 onChange={(e)=>setEmail(e.target.value)}
 
 />
+
+
+
+
 
 
 
@@ -160,8 +283,15 @@ onChange={(e)=>setPassword(e.target.value)}
 
 
 
+
+
+
+
+
+
 {
 !login &&
+
 
 <Input
 
@@ -175,31 +305,69 @@ onChange={(e)=>setCompanyName(e.target.value)}
 
 />
 
+
 }
+
+
+
 
 
 
 
 <button
 
-onClick={login ? null : handleSignup}
+onClick={
+login
+?
+null
+:
+handleSignup
+}
 
-className="group w-full bg-indigo-600 rounded-2xl text-white py-4 font-semibold flex justify-center items-center gap-3 hover:bg-indigo-700 duration-300"
+className="
+group
+w-full
+bg-indigo-600
+rounded-2xl
+text-white
+py-4
+font-semibold
+flex
+justify-center
+items-center
+gap-3
+hover:bg-indigo-700
+duration-300
+cursor-pointer
+"
 
 >
 
 
-{login ? "Login" : "Create Account"}
+{
+login
+?
+"Login"
+:
+"Create Account"
+}
+
 
 
 <ArrowRight
 
-className="group-hover:translate-x-1 duration-300"
+className="
+group-hover:translate-x-1
+duration-300
+"
 
 />
 
 
+
 </button>
+
+
 
 
 
@@ -207,12 +375,20 @@ className="group-hover:translate-x-1 duration-300"
 
 
 
+
+
+
+
+
 <p className="text-center mt-8">
 
 
-{login 
-? "Don't have an account?" 
-: "Already have an account?"
+{
+login
+?
+"Don't have an account?"
+:
+"Already have an account?"
 }
 
 
@@ -221,12 +397,23 @@ className="group-hover:translate-x-1 duration-300"
 
 onClick={()=>setLogin(!login)}
 
-className="text-indigo-600 ml-2 font-bold"
+className="
+text-indigo-600
+ml-2
+font-bold
+cursor-pointer
+"
 
 >
 
 
-{login ? "Sign Up" : "Login"}
+{
+login
+?
+"Sign Up"
+:
+"Login"
+}
 
 
 </button>
@@ -234,6 +421,9 @@ className="text-indigo-600 ml-2 font-bold"
 
 
 </p>
+
+
+
 
 
 </motion.div>
@@ -245,10 +435,27 @@ className="text-indigo-600 ml-2 font-bold"
 
 
 
+
+
+
+
 {/* RIGHT SIDE */}
 
 
-<div className="relative w-1/2 overflow-hidden bg-gradient-to-br from-indigo-900 via-purple-900 to-cyan-700">
+<div
+className="
+relative
+w-1/2
+overflow-hidden
+bg-gradient-to-br
+from-indigo-900
+via-purple-900
+to-cyan-700
+"
+>
+
+
+
 
 
 
@@ -264,9 +471,22 @@ repeat:Infinity,
 duration:10
 }}
 
-className="absolute w-96 h-96 bg-cyan-400/30 blur-[120px] rounded-full top-10 left-10"
+className="
+absolute
+w-96
+h-96
+bg-cyan-400/30
+blur-[120px]
+rounded-full
+top-10
+left-10
+"
 
 />
+
+
+
+
 
 
 
@@ -282,13 +502,40 @@ repeat:Infinity,
 duration:12
 }}
 
-className="absolute w-[450px] h-[450px] bg-purple-500/30 blur-[120px] rounded-full bottom-0 right-0"
+className="
+absolute
+w-[450px]
+h-[450px]
+bg-purple-500/30
+blur-[120px]
+rounded-full
+bottom-0
+right-0
+"
 
 />
 
 
 
-<div className="relative h-full flex flex-col items-center justify-center text-white">
+
+
+
+
+<div
+className="
+relative
+h-full
+flex
+flex-col
+items-center
+justify-center
+text-white
+"
+>
+
+
+
+
 
 
 <motion.div
@@ -302,7 +549,12 @@ repeat:Infinity,
 duration:6
 }}
 
-className="bg-white/10 backdrop-blur-xl rounded-3xl p-8"
+className="
+bg-white/10
+backdrop-blur-xl
+rounded-3xl
+p-8
+"
 
 >
 
@@ -314,7 +566,16 @@ className="bg-white/10 backdrop-blur-xl rounded-3xl p-8"
 
 
 
-<h1 className="text-7xl font-black mt-8">
+
+
+
+
+
+<h1 className="
+text-7xl
+font-black
+mt-8
+">
 
 Neuroloom
 
@@ -322,7 +583,21 @@ Neuroloom
 
 
 
-<p className="text-xl text-center mt-6 max-w-lg text-indigo-100 leading-9">
+
+
+
+
+
+<p
+className="
+text-xl
+text-center
+mt-6
+max-w-lg
+text-indigo-100
+leading-9
+"
+>
 
 The next-generation AI ERP platform that transforms business operations with intelligent automation, natural language interaction, and real-time analytics.
 
@@ -330,7 +605,19 @@ The next-generation AI ERP platform that transforms business operations with int
 
 
 
-<div className="grid grid-cols-2 gap-5 mt-16">
+
+
+
+
+
+<div
+className="
+grid
+grid-cols-2
+gap-5
+mt-16
+"
+>
 
 
 <Card title="AI Assistant"/>
@@ -342,15 +629,25 @@ The next-generation AI ERP platform that transforms business operations with int
 <Card title="Smart ERP"/>
 
 
-</div>
-
-
 
 </div>
 
 
 
+
+
+
 </div>
+
+
+
+
+
+
+</div>
+
+
+
 
 
 
@@ -365,11 +662,27 @@ The next-generation AI ERP platform that transforms business operations with int
 
 
 
+
+
+
 function Input({icon,...props}){
+
 
 return(
 
-<div className="flex items-center gap-3 border rounded-2xl px-5 py-4 focus-within:border-indigo-600 transition">
+<div
+className="
+flex
+items-center
+gap-3
+border
+rounded-2xl
+px-5
+py-4
+focus-within:border-indigo-600
+transition
+"
+>
 
 
 {icon}
@@ -379,7 +692,10 @@ return(
 
 {...props}
 
-className="outline-none w-full"
+className="
+outline-none
+w-full
+"
 
 />
 
@@ -387,14 +703,19 @@ className="outline-none w-full"
 </div>
 
 
-)
+);
+
 
 }
 
 
 
 
+
+
+
 function Card({title}){
+
 
 return(
 
@@ -404,19 +725,31 @@ whileHover={{
 scale:1.05
 }}
 
-className="bg-white/10 backdrop-blur-xl rounded-2xl p-6"
+className="
+bg-white/10
+backdrop-blur-xl
+rounded-2xl
+p-6
+"
 
 >
 
 
-<h2 className="font-bold text-2xl">
+<h2 className="
+font-bold
+text-2xl
+">
 
 {title}
 
 </h2>
 
 
-<p className="mt-2 text-indigo-100">
+
+<p className="
+mt-2
+text-indigo-100
+">
 
 Powered by AI
 
@@ -425,6 +758,8 @@ Powered by AI
 
 </motion.div>
 
-)
+
+);
+
 
 }

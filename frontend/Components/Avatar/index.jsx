@@ -1,17 +1,58 @@
-import './index.css';
-const Avatar = ({ onClick }) => {
+import prime from "../../src/assets/autobots/prime.png";
+
+
+const Avatar = ({onClick}) => {
+
+
   return (
-    <div
-      className="fixed bottom-6 right-6 z-50"
+
+    <button
+
       onClick={onClick}
+
+      className="
+        fixed
+        bottom-6
+        right-6
+        w-20
+        h-20
+        rounded-full
+        bg-white
+        shadow-2xl
+        border-4
+        border-indigo-500
+        flex
+        items-center
+        justify-center
+        hover:scale-110
+        transition
+        duration-300
+        cursor-pointer
+        z-40
+      "
+
     >
+
       <img
-        src="https://api.dicebear.com/9.x/bottts/svg?seed=ERPBot"
-        alt="AI Assistant"
-        className="w-16 h-16 rounded-full shadow-xl cursor-pointer hover:scale-110 transition-transform duration-300"
+
+        src={prime}
+
+        alt="Prime AI Assistant"
+
+        className="
+          w-full
+          h-full
+          object-contain
+        "
+
       />
-    </div>
+
+
+    </button>
+
   );
+
 };
+
 
 export default Avatar;
