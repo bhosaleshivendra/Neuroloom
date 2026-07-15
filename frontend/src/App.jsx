@@ -3,7 +3,7 @@ import "./App.css";
 import Header from "../Components/Header";
 import Sidebar from "../Components/Navbar";
 import Home from "../Components/Home";
-import Employees from "../Components/Employees";
+import Employees from "../Components/Employees/index.jsx";
 import Settings from "../Components/Settings";
 import Analytics from "../Components/Analytics";
 import Projects from "../Components/Projects";
@@ -25,7 +25,7 @@ const DashboardLayout = () => {
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header />
 
-        <main className="p-6 flex-1 overflow-y-auto">
+        <main className=" flex-1 overflow-y-auto">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/employees" element={<Employees />} />
