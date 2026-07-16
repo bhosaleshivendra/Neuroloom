@@ -101,14 +101,15 @@ function DashboardLayout() {
             />
 
             <Route
-              path="/projects"
-              element={
-                <Projects
-                  workspaces={workspaces}
-                  setWorkspaces={setWorkspaces}
-                />
-              }
-            />
+  path="/projects"
+  element={
+    <Projects
+      workspaces={workspaces}
+      setWorkspaces={setWorkspaces}
+      setCurrentWorkspaceId={setCurrentWorkspaceId}
+    />
+  }
+/>
 
             <Route
               path="/workspace/:id"

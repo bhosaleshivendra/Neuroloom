@@ -11,10 +11,12 @@ export default function WorkspaceCard({
 }) {
   const navigate = useNavigate();
 
-  const openWorkspace = () => {
-    setCurrentWorkspaceId(workspace.id);
-    navigate(`/workspace/${workspace.id}`);
-  };
+ const openWorkspace = () => {
+  console.log("Opening workspace:", workspace.id);
+
+  setCurrentWorkspaceId(workspace.id);
+  navigate(`/workspace/${workspace.id}`);
+};
 
   return (
     <div
