@@ -6,6 +6,9 @@ import {
   Search,
   BriefcaseBusiness,
   Building2,
+  Sparkles,
+  Star,
+  Shield,
 } from "lucide-react";
 
 export default function HireAutobotModal({
@@ -42,6 +45,10 @@ export default function HireAutobotModal({
         role: bot.role,
         department: bot.department,
         managerId: "prime",
+        isCustom: false,
+        description: bot.description || "",
+        skills: bot.skills || [],
+        experience: 75,
       });
       
       updateWorkspace(response.data);
@@ -62,7 +69,7 @@ export default function HireAutobotModal({
               Hiring Protocol Hub
             </h1>
             <p className="text-slate-400 text-sm mt-1">
-              Select and assign new Autobot personnel to departments.
+              Select and assign preset Autobot personnel to departments.
             </p>
           </div>
           <button
@@ -118,6 +125,9 @@ export default function HireAutobotModal({
                       <h2 className="text-xl font-bold text-slate-100">
                         {bot.name}
                       </h2>
+                      <p className="text-[11px] text-slate-400 mt-2 leading-relaxed line-clamp-2">
+                        {bot.description}
+                      </p>
                       <div className="mt-4 space-y-2 text-xs">
                         <div className="flex items-center gap-2 text-slate-400">
                           <BriefcaseBusiness size={14} className="text-indigo-400" />
@@ -128,6 +138,17 @@ export default function HireAutobotModal({
                           <span>{bot.department}</span>
                         </div>
                       </div>
+
+                      {/* Skills */}
+                      {bot.skills?.length > 0 && (
+                        <div className="flex flex-wrap gap-1 mt-3">
+                          {bot.skills.map((s) => (
+                            <span key={s} className="px-2 py-0.5 bg-indigo-500/10 text-indigo-300/80 rounded-md text-[9px] font-bold border border-indigo-500/10">
+                              {s}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </div>
 
                     <button
@@ -148,7 +169,7 @@ export default function HireAutobotModal({
                         }
                       `}
                     >
-                      {hired ? "Assigned" : "Assign to Dept"}
+                      {hired ? "✓ Assigned" : "Assign to Dept"}
                     </button>
                   </div>
                 </div>

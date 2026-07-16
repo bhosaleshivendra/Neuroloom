@@ -24,7 +24,7 @@ const workspaceSchema = new mongoose.Schema(
     employees: [
       {
         id: {
-          type: String, // e.g., 'prime', 'wheeljack'
+          type: String, // e.g., 'prime', 'wheeljack', or 'custom-uuid'
           required: true,
         },
         name: {
@@ -46,6 +46,31 @@ const workspaceSchema = new mongoose.Schema(
         },
         managerId: {
           type: String, // e.g., reports to 'prime'
+          default: "",
+        },
+        // Custom Autobot fields
+        isCustom: {
+          type: Boolean,
+          default: false,
+        },
+        description: {
+          type: String,
+          default: "",
+        },
+        skills: {
+          type: [String],
+          default: [],
+        },
+        experience: {
+          type: Number, // 1-100 experience level
+          default: 50,
+        },
+        avatarColor: {
+          type: String, // hex color for custom avatar
+          default: "#6366f1",
+        },
+        personality: {
+          type: String, // system prompt persona
           default: "",
         },
       },

@@ -120,7 +120,7 @@ const updateWorkspace = async (req, res) => {
 
 const hireEmployee = async (req, res) => {
   try {
-    const { id, name, role, department, managerId } = req.body;
+    const { id, name, role, department, managerId, isCustom, description, skills, experience, avatarColor, personality } = req.body;
     if (!id || !name || !role || !department) {
       return res.status(400).json({ message: "Please provide all employee details." });
     }
@@ -147,6 +147,12 @@ const hireEmployee = async (req, res) => {
       department,
       status: "ONLINE",
       managerId: managerId || "prime",
+      isCustom: isCustom || false,
+      description: description || "",
+      skills: skills || [],
+      experience: experience || 50,
+      avatarColor: avatarColor || "#6366f1",
+      personality: personality || "",
     });
 
     await workspace.save();
@@ -255,7 +261,7 @@ const togglePlugin = async (req, res) => {
 const updateEmployee = async (req, res) => {
   try {
     const { employeeId } = req.params;
-    const { role, department, managerId } = req.body;
+    const { role, department, managerId, description, skills, experience, avatarColor, personality } = req.body;
 
     const workspace = await Workspace.findOne({
       _id: req.params.id,
@@ -273,9 +279,12 @@ const updateEmployee = async (req, res) => {
 
     if (role) emp.role = role;
     if (department) emp.department = department;
-    if (managerId !== undefined && employeeId !== "prime") {
-      emp.managerId = managerId;
-    }
+    if (managerId !== undefined && employeeId !== "prime") emp.managerId = managerId;
+    if (description !== undefined) emp.description = description;
+    if (skills !== undefined) emp.skills = skills;
+    if (experience !== undefined) emp.experience = experience;
+    if (avatarColor !== undefined) emp.avatarColor = avatarColor;
+    if (personality !== undefined) emp.personality = personality;
 
     await workspace.save();
     res.status(200).json(workspace);
