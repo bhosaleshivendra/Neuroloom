@@ -1,38 +1,16 @@
 const express = require("express");
-const dotenv = require("dotenv");
-const mongoose = require("mongoose");
-const cors = require("cors");
-const dns = require('dns');
 
-dns.setServers([
-        '1.1.1.1',
-    '8.8.8.8'
-]);
+const router = express.Router();
 
-dotenv.config();
 
-const app = express();
+const {
+    signup
+} = require("../controllers/authController");
 
-app.use(cors());
-app.use(express.json());
 
-mongoose
-  .connect(process.env.MONGODB_URL)
-  .then(() => {
-    console.log("MongoDB Connected");
-    console.log("Connected Database:", mongoose.connection.name);
-  })
-  .catch((err) => console.log(err));
-const authRoutes = require("./routes/authRoutes");
 
-app.use("/api/auth", authRoutes);
+router.post("/signup", signup);
 
-app.get("/", (req, res) => {
-  res.send("Backend Running");
-});
 
-const PORT = process.env.PORT||3000;
 
-app.listen(PORT, () => {
-  console.log(`Server running on ${PORT}`);
-});
+module.exports = router;

@@ -13,753 +13,342 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import LoadingScreen from "../LoadingScreen";
 
 export default function LoginSignup() {
-
-
   const navigate = useNavigate();
 
   const [login, setLogin] = useState(true);
-
+  const [loading, setLoading] = useState(false);
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [companyName, setCompanyName] = useState("");
 
-
-
-
-
   const handleSignup = async () => {
+    if (!username || !email || !password || !companyName) {
+      alert("Please fill all the fields.");
+      return;
+    }
 
+    setLoading(true);
 
     try {
-
-
       const response = await axios.post(
-
-        `https://neuroloom.onrender.com/api/auth/signup`,
-
+        "https://neuroloom.onrender.com/api/auth/signup",
         {
           username,
           email,
           password,
-          companyName
+          companyName,
         }
-
       );
-
 
       console.log(response.data);
 
+      setLoading(false);
 
-      alert("Account Created Successfully");
+      alert("Account created successfully!");
 
+      setLogin(true);
 
-      navigate("/");
+      setUsername("");
+      setEmail("");
+      setPassword("");
+      setCompanyName("");
+    } catch (error) {
+      setLoading(false);
 
-
-
-    } catch(error) {
-
-
-      console.log("Full Error:", error);
-
-
-      if(error.response){
-
-        console.log("Status:",error.response.status);
-
-        console.log("Data:",error.response.data);
-
-
-        alert(
-          error.response.data.message ||
-          "Signup Failed"
-        );
-
-
-      }
-      else{
-
-        console.log(error.message);
-
+      if (error.response) {
+        alert(error.response.data.message || "Signup Failed");
+      } else {
         alert(error.message);
-
       }
-
-
     }
-
-
   };
 
-
-
-
-
-
+  const handleLogin = () => {
+    alert("Login API will be implemented next.");
+  };
 
   return (
+    <>
+      {loading && <LoadingScreen />}
 
+      <div className="min-h-screen flex bg-slate-950 overflow-hidden relative">
 
-<div
-className="
-min-h-screen
-flex
-bg-slate-950
-overflow-hidden
-relative
-"
->
+        <button
+          onClick={() => navigate("/")}
+          className="absolute top-6 left-6 z-50 flex items-center gap-2 bg-white text-slate-800 px-5 py-3 rounded-xl font-semibold shadow-lg hover:bg-slate-100 transition cursor-pointer"
+        >
+          <Home size={18} />
+          Home
+        </button>
 
+        {/* LEFT SIDE */}
 
+        <div className="w-1/2 flex items-center justify-center bg-white">
+          <motion.div
+            initial={{ x: -60, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.7 }}
+            className="w-[430px]"
+          >
+            <h1 className="text-5xl font-bold">
+              {login ? "Welcome Back" : "Create Account"}
+            </h1>
 
-{/* Back To Home Button */}
+            <p className="mt-3 text-gray-500">
+              AI Powered ERP for modern companies.
+            </p>
 
-<button
+            <div className="space-y-5 mt-10">
 
-onClick={()=>navigate("/")}
+              {!login && (
+                <Input
+                  icon={<User size={20} />}
+                  placeholder="Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              )}
 
-className="
-absolute
-top-6
-left-6
-z-50
-flex
-items-center
-gap-2
-bg-white
-text-slate-800
-px-5
-py-3
-rounded-xl
-font-semibold
-shadow-lg
-hover:bg-slate-100
-transition
-cursor-pointer
-"
+              <Input
+                icon={<Mail size={20} />}
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
 
->
+              <Input
+                icon={<Lock size={20} />}
+                placeholder="Password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
 
-<Home size={18}/>
+              {!login && (
+                <Input
+                  icon={<Building2 size={20} />}
+                  placeholder="Company Name"
+                  value={companyName}
+                  onChange={(e) => setCompanyName(e.target.value)}
+                />
+              )}
 
-Home
+              <button
+                onClick={login ? handleLogin : handleSignup}
+                className="group w-full bg-indigo-600 rounded-2xl text-white py-4 font-semibold flex justify-center items-center gap-3 hover:bg-indigo-700 duration-300 cursor-pointer"
+              >
+                {loading
+                  ? "Please wait..."
+                  : login
+                  ? "Login"
+                  : "Create Account"}
 
-</button>
+                <ArrowRight className="group-hover:translate-x-1 duration-300" />
+              </button>
 
+            </div>
 
+            <p className="text-center mt-8">
+              {login
+                ? "Don't have an account?"
+                : "Already have an account?"}
+            </p>
 
+            <button
+              onClick={() => setLogin(!login)}
+              disabled={loading}
+              className={`mt-4 w-full rounded-2xl py-4 font-semibold text-white duration-300 ${
+                loading
+                  ? "bg-gray-500 cursor-not-allowed"
+                  : "bg-indigo-600 hover:bg-indigo-700 cursor-pointer"
+              }`}
+            >
+              {login ? "Sign Up" : "Login"}
+            </button>
+          </motion.div>
+        </div>
 
+        {/* RIGHT SIDE */}
+                <div
+          className="
+          relative
+          w-1/2
+          overflow-hidden
+          bg-gradient-to-br
+          from-indigo-900
+          via-purple-900
+          to-cyan-700
+          "
+        >
+          <motion.div
+            animate={{
+              y: [0, -30, 0],
+              x: [0, 30, 0],
+            }}
+            transition={{
+              repeat: Infinity,
+              duration: 10,
+            }}
+            className="
+            absolute
+            w-96
+            h-96
+            bg-cyan-400/30
+            blur-[120px]
+            rounded-full
+            top-10
+            left-10
+            "
+          />
 
+          <motion.div
+            animate={{
+              y: [0, 40, 0],
+              x: [0, -40, 0],
+            }}
+            transition={{
+              repeat: Infinity,
+              duration: 12,
+            }}
+            className="
+            absolute
+            w-[450px]
+            h-[450px]
+            bg-purple-500/30
+            blur-[120px]
+            rounded-full
+            bottom-0
+            right-0
+            "
+          />
 
+          <div
+            className="
+            relative
+            h-full
+            flex
+            flex-col
+            items-center
+            justify-center
+            text-white
+            "
+          >
+            <motion.div
+              animate={{
+                rotate: [0, 8, -8, 0],
+              }}
+              transition={{
+                repeat: Infinity,
+                duration: 6,
+              }}
+              className="
+              bg-white/10
+              backdrop-blur-xl
+              rounded-3xl
+              p-8
+              "
+            >
+              <BrainCircuit size={80} />
+            </motion.div>
 
+            <h1
+              className="
+              text-7xl
+              font-black
+              mt-8
+              "
+            >
+              Neuroloom
+            </h1>
 
+            <p
+              className="
+              text-xl
+              text-center
+              mt-6
+              max-w-lg
+              text-indigo-100
+              leading-9
+              "
+            >
+              The next-generation AI ERP platform that transforms business
+              operations with intelligent automation, natural language
+              interaction, and real-time analytics.
+            </p>
 
-{/* LEFT SIDE */}
-
-
-<div
-className="
-w-1/2
-flex
-items-center
-justify-center
-bg-white
-"
->
-
-
-<motion.div
-
-initial={{
-x:-60,
-opacity:0
-}}
-
-animate={{
-x:0,
-opacity:1
-}}
-
-transition={{
-duration:.7
-}}
-
-className="w-[430px]"
-
->
-
-
-<h1 className="text-5xl font-bold">
-
-
-{
-login
-?
-"Welcome Back"
-:
-"Create Account"
+            <div
+              className="
+              grid
+              grid-cols-2
+              gap-5
+              mt-16
+              "
+            >
+              <Card title="AI Assistant" />
+              <Card title="Analytics" />
+              <Card title="Projects" />
+              <Card title="Smart ERP" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }
 
+function Input({ icon, ...props }) {
+  return (
+    <div
+      className="
+      flex
+      items-center
+      gap-3
+      border
+      rounded-2xl
+      px-5
+      py-4
+      focus-within:border-indigo-600
+      transition
+      "
+    >
+      {icon}
 
-</h1>
-
-
-
-<p className="mt-3 text-gray-500">
-
-AI Powered ERP for modern companies.
-
-</p>
-
-
-
-
-
-
-<div className="space-y-5 mt-10">
-
-
-
-
-
-{
-!login &&
-
-<Input
-
-icon={<User size={20}/>}
-
-placeholder="Username"
-
-value={username}
-
-onChange={(e)=>setUsername(e.target.value)}
-
-/>
-
+      <input
+        {...props}
+        className="
+        outline-none
+        w-full
+        "
+      />
+    </div>
+  );
 }
 
-
-
-
-
-
-
-<Input
-
-icon={<Mail size={20}/>}
-
-placeholder="Email"
-
-value={email}
-
-onChange={(e)=>setEmail(e.target.value)}
-
-/>
-
-
-
-
-
-
-
-<Input
-
-icon={<Lock size={20}/>}
-
-placeholder="Password"
-
-type="password"
-
-value={password}
-
-onChange={(e)=>setPassword(e.target.value)}
-
-/>
-
-
-
-
-
-
-
-
-
-{
-!login &&
-
-
-<Input
-
-icon={<Building2 size={20}/>}
-
-placeholder="Company Name"
-
-value={companyName}
-
-onChange={(e)=>setCompanyName(e.target.value)}
-
-/>
-
-
-}
-
-
-
-
-
-
-
-<button
-
-onClick={
-login
-?
-null
-:
-handleSignup
-}
-
-className="
-group
-w-full
-bg-indigo-600
-rounded-2xl
-text-white
-py-4
-font-semibold
-flex
-justify-center
-items-center
-gap-3
-hover:bg-indigo-700
-duration-300
-cursor-pointer
-"
-
->
-
-
-{
-login
-?
-"Login"
-:
-"Create Account"
-}
-
-
-
-<ArrowRight
-
-className="
-group-hover:translate-x-1
-duration-300
-"
-
-/>
-
-
-
-</button>
-
-
-
-
-
-</div>
-
-
-
-
-
-
-
-
-<p className="text-center mt-8">
-
-
-{
-login
-?
-"Don't have an account?"
-:
-"Already have an account?"
-}
-
-
-
-<button
-
-onClick={()=>setLogin(!login)}
-
-className="
-text-indigo-600
-ml-2
-font-bold
-cursor-pointer
-"
-
->
-
-
-{
-login
-?
-"Sign Up"
-:
-"Login"
-}
-
-
-</button>
-
-
-
-</p>
-
-
-
-
-
-</motion.div>
-
-
-</div>
-
-
-
-
-
-
-
-
-
-{/* RIGHT SIDE */}
-
-
-<div
-className="
-relative
-w-1/2
-overflow-hidden
-bg-gradient-to-br
-from-indigo-900
-via-purple-900
-to-cyan-700
-"
->
-
-
-
-
-
-
-<motion.div
-
-animate={{
-y:[0,-30,0],
-x:[0,30,0]
-}}
-
-transition={{
-repeat:Infinity,
-duration:10
-}}
-
-className="
-absolute
-w-96
-h-96
-bg-cyan-400/30
-blur-[120px]
-rounded-full
-top-10
-left-10
-"
-
-/>
-
-
-
-
-
-
-
-<motion.div
-
-animate={{
-y:[0,40,0],
-x:[0,-40,0]
-}}
-
-transition={{
-repeat:Infinity,
-duration:12
-}}
-
-className="
-absolute
-w-[450px]
-h-[450px]
-bg-purple-500/30
-blur-[120px]
-rounded-full
-bottom-0
-right-0
-"
-
-/>
-
-
-
-
-
-
-
-<div
-className="
-relative
-h-full
-flex
-flex-col
-items-center
-justify-center
-text-white
-"
->
-
-
-
-
-
-
-<motion.div
-
-animate={{
-rotate:[0,8,-8,0]
-}}
-
-transition={{
-repeat:Infinity,
-duration:6
-}}
-
-className="
-bg-white/10
-backdrop-blur-xl
-rounded-3xl
-p-8
-"
-
->
-
-
-<BrainCircuit size={80}/>
-
-
-</motion.div>
-
-
-
-
-
-
-
-
-<h1 className="
-text-7xl
-font-black
-mt-8
-">
-
-Neuroloom
-
-</h1>
-
-
-
-
-
-
-
-
-<p
-className="
-text-xl
-text-center
-mt-6
-max-w-lg
-text-indigo-100
-leading-9
-"
->
-
-The next-generation AI ERP platform that transforms business operations with intelligent automation, natural language interaction, and real-time analytics.
-
-</p>
-
-
-
-
-
-
-
-
-<div
-className="
-grid
-grid-cols-2
-gap-5
-mt-16
-"
->
-
-
-<Card title="AI Assistant"/>
-
-<Card title="Analytics"/>
-
-<Card title="Projects"/>
-
-<Card title="Smart ERP"/>
-
-
-
-</div>
-
-
-
-
-
-
-</div>
-
-
-
-
-
-
-</div>
-
-
-
-
-
-
-</div>
-
-
-);
-
-
-}
-
-
-
-
-
-
-
-function Input({icon,...props}){
-
-
-return(
-
-<div
-className="
-flex
-items-center
-gap-3
-border
-rounded-2xl
-px-5
-py-4
-focus-within:border-indigo-600
-transition
-"
->
-
-
-{icon}
-
-
-<input
-
-{...props}
-
-className="
-outline-none
-w-full
-"
-
-/>
-
-
-</div>
-
-
-);
-
-
-}
-
-
-
-
-
-
-
-function Card({title}){
-
-
-return(
-
-<motion.div
-
-whileHover={{
-scale:1.05
-}}
-
-className="
-bg-white/10
-backdrop-blur-xl
-rounded-2xl
-p-6
-"
-
->
-
-
-<h2 className="
-font-bold
-text-2xl
-">
-
-{title}
-
-</h2>
-
-
-
-<p className="
-mt-2
-text-indigo-100
-">
-
-Powered by AI
-
-</p>
-
-
-</motion.div>
-
-
-);
-
-
+function Card({ title }) {
+  return (
+    <motion.div
+      whileHover={{
+        scale: 1.05,
+      }}
+      className="
+      bg-white/10
+      backdrop-blur-lg
+      rounded-2xl
+      px-8
+      py-6
+      text-center
+      font-semibold
+      border
+      border-white/10
+      shadow-lg
+      "
+    >
+      {title}
+    </motion.div>
+  );
 }
