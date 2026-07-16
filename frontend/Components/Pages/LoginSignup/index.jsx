@@ -9,14 +9,16 @@ import {
   Home,
 } from "lucide-react";
 
-import axios from "axios";
+import api from "../../../src/utils/axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../src/context/AuthContext";
 
 import LoadingScreen from "../LoadingScreen";
 
 export default function LoginSignup() {
   const navigate = useNavigate();
+  const { login: loginUser } = useAuth();
 
   const [login, setLogin] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -35,8 +37,8 @@ export default function LoginSignup() {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        "https://neuroloom.onrender.com/api/auth/signup",
+      const response = await api.post(
+        "/api/auth/signup",
         {
           username,
           email,
@@ -68,8 +70,47 @@ export default function LoginSignup() {
     }
   };
 
-  const handleLogin = () => {
-    alert("Login API will be implemented next.");
+  const handleLogin = async () => {
+    if (!email || !password) {
+      alert("Please enter email and password.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await api.post(
+        "/api/auth/login",
+        {
+          email,
+          password,
+        }
+      );
+
+      const { token, user } = response.data;
+
+      // Store token and user in auth context
+      loginUser(user, token);
+
+      setLoading(false);
+
+      alert("Login successful!");
+
+      // Clear form
+      setEmail("");
+      setPassword("");
+
+      // Redirect to dashboard
+      navigate("/dashboard");
+    } catch (error) {
+      setLoading(false);
+
+      if (error.response) {
+        alert(error.response.data.message || "Login Failed");
+      } else {
+        alert(error.message);
+      }
+    }
   };
 
   return (
