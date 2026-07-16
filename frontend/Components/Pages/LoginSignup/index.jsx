@@ -83,7 +83,7 @@ export default function LoginSignup() {
 
     try {
       const response = await api.post(
-        "/api/auth/login",
+        `${import.meta.env.VITE_API_URL}/api/auth/login`,
         {
           email,
           password,
