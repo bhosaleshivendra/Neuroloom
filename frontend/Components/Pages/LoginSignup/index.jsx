@@ -9,17 +9,20 @@ import {
   Home,
 } from "lucide-react";
 
-import axios from "axios";
+import api from "../../../src/utils/axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../src/context/AuthContext";
 
 import LoadingScreen from "../LoadingScreen";
 
 export default function LoginSignup() {
   const navigate = useNavigate();
+  const { login: loginUser } = useAuth();
 
   const [login, setLogin] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -28,15 +31,16 @@ export default function LoginSignup() {
 
   const handleSignup = async () => {
     if (!username || !email || !password || !companyName) {
-      alert("Please fill all the fields.");
+      setError("Please fill all the fields.");
       return;
     }
 
     setLoading(true);
+    setError("");
 
     try {
-      const response = await axios.post(
-        "https://neuroloom.onrender.com/api/auth/signup",
+      const response = await api.post(
+        "/api/auth/signup",
         {
           username,
           email,
@@ -48,9 +52,9 @@ export default function LoginSignup() {
       console.log(response.data);
 
       setLoading(false);
+      setError("");
 
-      alert("Account created successfully!");
-
+      // Switch to login form after successful signup
       setLogin(true);
 
       setUsername("");
@@ -61,15 +65,54 @@ export default function LoginSignup() {
       setLoading(false);
 
       if (error.response) {
-        alert(error.response.data.message || "Signup Failed");
+        setError(error.response.data.message || "Signup Failed");
       } else {
-        alert(error.message);
+        setError(error.message || "Something went wrong");
       }
     }
   };
 
-  const handleLogin = () => {
-    alert("Login API will be implemented next.");
+  const handleLogin = async () => {
+    if (!email || !password) {
+      setError("Please enter email and password.");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await api.post(
+        "/api/auth/login",
+        {
+          email,
+          password,
+        }
+      );
+
+      const { token, user } = response.data;
+
+      // Store token and user in auth context and sessionStorage
+      loginUser(user, token);
+
+      setLoading(false);
+      setError("");
+
+      // Clear form
+      setEmail("");
+      setPassword("");
+
+      // Redirect to home page
+      navigate("/");
+    } catch (error) {
+      setLoading(false);
+
+      if (error.response) {
+        setError(error.response.data.message || "Login Failed");
+      } else {
+        setError(error.message || "Something went wrong");
+      }
+    }
   };
 
   return (
@@ -102,6 +145,12 @@ export default function LoginSignup() {
             <p className="mt-3 text-gray-500">
               AI Powered ERP for modern companies.
             </p>
+
+            {error && (
+              <div className="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm">
+                {error}
+              </div>
+            )}
 
             <div className="space-y-5 mt-10">
 

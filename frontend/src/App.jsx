@@ -1,6 +1,6 @@
 import "./App.css";
 
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { useState } from "react";
 
 import Header from "../Components/Header";
@@ -17,6 +17,8 @@ import Settings from "../Components/Settings";
 import LoginSignup from "../Components/Pages/LoginSignup";
 
 import AIAssistant from "../Components/AIAssistant";
+
+import { useAuth, AuthProvider } from "../src/context/AuthContext";
 
 import prime from "../src/assets/autobots/prime.png";
 
@@ -152,28 +154,51 @@ function AuthLayout() {
 
 }
 
+// Protected Route Component
+function ProtectedRoute({ children }) {
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) {
+    return <div className="flex items-center justify-center h-screen">Loading...</div>;
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/sign-in" replace />;
+  }
+
+  return children;
+}
+
+function AppRoutes() {
+  const { isAuthenticated } = useAuth();
+
+  return (
+    <Routes>
+      <Route
+        path="/sign-in"
+        element={<AuthLayout />}
+      />
+
+      <Route
+        path="/*"
+        element={
+          <ProtectedRoute>
+            <DashboardLayout />
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
+  );
+}
+
 export default function App() {
 
   return (
-
-    <Router>
-
-      <Routes>
-
-        <Route
-          path="/sign-in"
-          element={<AuthLayout />}
-        />
-
-        <Route
-          path="/*"
-          element={<DashboardLayout />}
-        />
-
-      </Routes>
-
-    </Router>
-
+    <AuthProvider>
+      <Router>
+        <AppRoutes />
+      </Router>
+    </AuthProvider>
   );
 
 }
