@@ -4,67 +4,101 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 
 import Header from "../Components/Header";
-import Navbar from "../Components/Navbar";
+import Sidebar from "../Components/Navbar";
 
 import Home from "../Components/Home";
 import Projects from "../Components/Projects";
-import Analytics from "../Components/Analytics";
-import Settings from "../Components/Settings";
 
 import Workspace from "../Components/Workspace";
 
+import Analytics from "../Components/Analytics";
+import Settings from "../Components/Settings";
+
 import LoginSignup from "../Components/Pages/LoginSignup";
+
 import AIAssistant from "../Components/AIAssistant";
 
-import prime from "./assets/autobots/prime.png";
+import prime from "../src/assets/autobots/prime.png";
 
-const DashboardLayout = () => {
+function DashboardLayout() {
+
   const [workspaces, setWorkspaces] = useState([
     {
       id: 1,
+
       name: "Neuroloom ERP",
+
       company: "Neuroloom Technologies",
 
       employees: [
         {
           id: 1,
+
           originalId: 1,
+
           name: "Prime",
+
           image: prime,
-          role: "Chief Autobot",
+
+          role: "Chief AI Officer",
+
           department: "Leadership",
         },
       ],
 
       tasks: [],
-      departments: [],
+
+      departments: [
+        "Leadership",
+        "Engineering",
+        "Operations",
+      ],
+
+      createdAt: new Date(),
     },
   ]);
 
-  const [currentWorkspaceId, setCurrentWorkspaceId] = useState(null);
+  /*
+      Current opened workspace.
+      This will later come from React Router.
+  */
+
+  const [currentWorkspaceId, setCurrentWorkspaceId] = useState(1);
 
   const currentWorkspace =
-    workspaces.find((w) => w.id === currentWorkspaceId) || null;
-
-  const insideWorkspace = currentWorkspace !== null;
+    workspaces.find(
+      (workspace) => workspace.id === currentWorkspaceId
+    ) || null;
 
   return (
-    <div className="flex h-screen bg-slate-100 overflow-hidden">
+
+    <div className="flex h-screen overflow-hidden bg-slate-100">
+
       {/* Sidebar */}
 
-      {!insideWorkspace && <Navbar />}
+      <Sidebar />
 
       {/* Main */}
 
       <div className="flex flex-1 flex-col overflow-hidden">
+
         <Header
           workspace={currentWorkspace}
-          employees={currentWorkspace?.employees || []}
         />
 
-        <main className="flex-1 overflow-y-auto bg-slate-100">
+        <main className="flex-1 overflow-y-auto">
+
           <Routes>
-            <Route path="/" element={<Home />} />
+
+            <Route
+              path="/"
+              element={
+                <Home
+                  workspaces={workspaces}
+                  setCurrentWorkspaceId={setCurrentWorkspaceId}
+                />
+              }
+            />
 
             <Route
               path="/projects"
@@ -72,7 +106,6 @@ const DashboardLayout = () => {
                 <Projects
                   workspaces={workspaces}
                   setWorkspaces={setWorkspaces}
-                  setCurrentWorkspaceId={setCurrentWorkspaceId}
                 />
               }
             />
@@ -81,38 +114,65 @@ const DashboardLayout = () => {
               path="/workspace/:id"
               element={
                 <Workspace
-                  workspace={currentWorkspace}
-                  setCurrentWorkspaceId={setCurrentWorkspaceId}
                   workspaces={workspaces}
                   setWorkspaces={setWorkspaces}
+                  setCurrentWorkspaceId={setCurrentWorkspaceId}
                 />
               }
             />
 
-            <Route path="/analytics" element={<Analytics />} />
+            <Route
+              path="/analytics"
+              element={<Analytics />}
+            />
 
-            <Route path="/settings" element={<Settings />} />
+            <Route
+              path="/settings"
+              element={<Settings />}
+            />
+
           </Routes>
+
         </main>
+
       </div>
 
-      <AIAssistant workspace={currentWorkspace} />
+      <AIAssistant />
+
     </div>
+
   );
-};
+
+}
 
 function AuthLayout() {
+
   return <LoginSignup />;
+
 }
 
 export default function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/sign-in" element={<AuthLayout />} />
 
-        <Route path="/*" element={<DashboardLayout />} />
+  return (
+
+    <Router>
+
+      <Routes>
+
+        <Route
+          path="/sign-in"
+          element={<AuthLayout />}
+        />
+
+        <Route
+          path="/*"
+          element={<DashboardLayout />}
+        />
+
       </Routes>
+
     </Router>
+
   );
+
 }

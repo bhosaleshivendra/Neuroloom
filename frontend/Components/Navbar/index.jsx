@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import { useState } from "react";
 
 import {
   House,
@@ -6,11 +7,16 @@ import {
   BarChart3,
   Settings,
   BrainCircuit,
+  PanelLeftClose,
+  PanelLeftOpen,
 } from "lucide-react";
 
 import "./index.css";
 
 export default function Sidebar() {
+
+  const [collapsed, setCollapsed] = useState(false);
+
   const links = [
     {
       name: "Home",
@@ -35,20 +41,34 @@ export default function Sidebar() {
   ];
 
   return (
+
     <aside
-      className="
-        w-72
+      className={`
         h-screen
         bg-slate-900
         text-white
         flex
         flex-col
         shrink-0
-      "
+        transition-all
+        duration-300
+
+        ${collapsed ? "w-20" : "w-72"}
+      `}
     >
+
       {/* Logo */}
 
-      <div className="px-8 py-8 border-b border-slate-800">
+      <div
+        className={`
+          border-b
+          border-slate-800
+          flex
+          items-center
+
+          ${collapsed ? "justify-center py-6" : "justify-between px-6 py-6"}
+        `}
+      >
 
         <div className="flex items-center gap-3">
 
@@ -63,28 +83,47 @@ export default function Sidebar() {
               justify-center
             "
           >
-            <BrainCircuit size={26} />
-          </div>
 
-          <div>
-
-            <h1 className="text-2xl font-bold">
-              Neuroloom
-            </h1>
-
-            <p className="text-sm text-slate-400">
-              AI ERP Platform
-            </p>
+            <BrainCircuit size={24} />
 
           </div>
+
+          {!collapsed && (
+
+            <div>
+
+              <h1 className="text-2xl font-bold">
+                Neuroloom
+              </h1>
+
+              <p className="text-sm text-slate-400">
+                AI ERP Platform
+              </p>
+
+            </div>
+
+          )}
 
         </div>
+
+        {!collapsed && (
+
+          <button
+            onClick={() => setCollapsed(true)}
+            className="text-slate-400 hover:text-white"
+          >
+
+            <PanelLeftClose size={22} />
+
+          </button>
+
+        )}
 
       </div>
 
       {/* Navigation */}
 
-      <nav className="flex-1 px-5 py-6 space-y-2">
+      <nav className="flex-1 px-3 py-6 space-y-2">
 
         {links.map((item) => {
 
@@ -100,56 +139,85 @@ export default function Sidebar() {
                 `
                 flex
                 items-center
-                gap-4
-                px-5
-                py-4
                 rounded-2xl
                 transition
-                font-medium
+
+                ${
+                  collapsed
+                    ? "justify-center py-4"
+                    : "gap-4 px-5 py-4"
+                }
 
                 ${
                   isActive
-                    ? "bg-indigo-600 text-white"
-                    : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                    ? "bg-indigo-600"
+                    : "hover:bg-slate-800"
                 }
               `
               }
             >
+
               <Icon size={22} />
 
-              <span>{item.name}</span>
+              {!collapsed && (
+                <span>{item.name}</span>
+              )}
 
             </NavLink>
 
           );
+
         })}
 
       </nav>
 
       {/* Footer */}
 
-      <div className="p-6 border-t border-slate-800">
+      <div className="border-t border-slate-800 p-4">
 
-        <div
-          className="
-            rounded-2xl
-            bg-slate-800
-            p-4
-          "
-        >
+        {collapsed ? (
 
-          <p className="text-sm text-slate-400">
-            Workspace Version
-          </p>
+          <button
+            onClick={() => setCollapsed(false)}
+            className="
+              w-full
+              flex
+              justify-center
+              text-slate-400
+              hover:text-white
+            "
+          >
 
-          <h2 className="mt-1 font-semibold">
-            v1.0.0
-          </h2>
+            <PanelLeftOpen size={22} />
 
-        </div>
+          </button>
+
+        ) : (
+
+          <div
+            className="
+              bg-slate-800
+              rounded-2xl
+              p-4
+            "
+          >
+
+            <p className="text-sm text-slate-400">
+              Workspace Version
+            </p>
+
+            <h2 className="font-semibold mt-1">
+              v1.0.0
+            </h2>
+
+          </div>
+
+        )}
 
       </div>
 
     </aside>
+
   );
+
 }

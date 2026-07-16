@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 
 import CreateWorkspaceModal from "./CreateWorkspaceModal";
 import WorkspaceCard from "./WorkspaceCard";
@@ -8,15 +10,45 @@ export default function Projects({
   setWorkspaces,
   setCurrentWorkspaceId,
 }) {
+
+  const navigate = useNavigate();
+
   const [openModal, setOpenModal] = useState(false);
 
   const createWorkspace = (workspace) => {
-  setWorkspaces([...workspaces, workspace]);
-  setOpenModal(false);
-};
+
+    setWorkspaces([...workspaces, workspace]);
+
+    setOpenModal(false);
+
+  };
 
   return (
+
     <div className="min-h-full bg-slate-100 p-8">
+
+      {/* Back Button */}
+
+      <button
+        onClick={() => navigate("/")}
+        className="
+          flex
+          items-center
+          gap-2
+          text-slate-500
+          hover:text-indigo-600
+          transition
+          mb-8
+        "
+      >
+
+        <ArrowLeft size={20} />
+
+        <span className="font-medium">
+          Home
+        </span>
+
+      </button>
 
       {/* Header */}
 
@@ -48,7 +80,9 @@ export default function Projects({
             cursor-pointer
           "
         >
+
           + Create Workspace
+
         </button>
 
       </div>
@@ -97,5 +131,7 @@ export default function Projects({
       )}
 
     </div>
+
   );
+
 }
