@@ -1,253 +1,118 @@
 import "./App.css";
 
-import Header from "../Components/Header";
-import Sidebar from "../Components/Navbar";
-import Home from "../Components/Home";
-import Employees from "../Components/Employees/index.jsx";
-import Settings from "../Components/Settings";
-import Analytics from "../Components/Analytics";
-import Projects from "../Components/Projects";
-import AIAssistant from "../Components/AIAssistant";
-import LoginSignup from "../Components/Pages/LoginSignup";
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState } from "react";
-import prime from "../src/assets/autobots/prime.png";
 
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-} from "react-router-dom";
+import Header from "../Components/Header";
+import Navbar from "../Components/Navbar";
 
+import Home from "../Components/Home";
+import Projects from "../Components/Projects";
+import Analytics from "../Components/Analytics";
+import Settings from "../Components/Settings";
 
+import Workspace from "../Components/Workspace";
 
+import LoginSignup from "../Components/Pages/LoginSignup";
+import AIAssistant from "../Components/AIAssistant";
 
-// Dashboard Layout
+import prime from "./assets/autobots/prime.png";
 
 const DashboardLayout = () => {
-
-
-  const [employees, setEmployees] = useState([
-
+  const [workspaces, setWorkspaces] = useState([
     {
       id: 1,
-      name: "Prime",
-      image: prime,
-      role: "Chief Autobot",
-      department: "Leadership",
-      description:
-        "Leads the entire AI workforce and coordinates all business operations.",
-      skills: [
-        "Leadership",
-        "Planning",
-        "Decision Making",
-      ],
-    },
+      name: "Neuroloom ERP",
+      company: "Neuroloom Technologies",
 
+      employees: [
+        {
+          id: 1,
+          originalId: 1,
+          name: "Prime",
+          image: prime,
+          role: "Chief Autobot",
+          department: "Leadership",
+        },
+      ],
+
+      tasks: [],
+      departments: [],
+    },
   ]);
 
+  const [currentWorkspaceId, setCurrentWorkspaceId] = useState(null);
 
+  const currentWorkspace =
+    workspaces.find((w) => w.id === currentWorkspaceId) || null;
 
-
+  const insideWorkspace = currentWorkspace !== null;
 
   return (
+    <div className="flex h-screen bg-slate-100 overflow-hidden">
+      {/* Sidebar */}
 
-    <div
-      className="
-        flex
-        h-screen
-        overflow-hidden
-      "
-    >
+      {!insideWorkspace && <Navbar />}
 
+      {/* Main */}
 
-
-
-      {/* Fixed Sidebar */}
-
-      <Sidebar />
-
-
-
-
-
-
-      {/* Main Right Layout */}
-
-      <div
-        className="
-          flex-1
-          flex
-          flex-col
-          h-screen
-          overflow-hidden
-        "
-      >
-
-
-
-
-        {/* Fixed Header */}
-
+      <div className="flex flex-1 flex-col overflow-hidden">
         <Header
-          employees={employees}
+          workspace={currentWorkspace}
+          employees={currentWorkspace?.employees || []}
         />
 
-
-
-
-
-
-        {/* Only Scrollable Area */}
-
-        <main
-          className="
-            flex-1
-            overflow-y-auto
-            overflow-x-hidden
-            bg-slate-100
-          "
-        >
-
-
-
+        <main className="flex-1 overflow-y-auto bg-slate-100">
           <Routes>
-
-
-            <Route
-              path="/"
-              element={<Home />}
-            />
-
-
+            <Route path="/" element={<Home />} />
 
             <Route
-              path="/employees"
+              path="/projects"
               element={
-                <Employees
-                  employees={employees}
-                  setEmployees={setEmployees}
+                <Projects
+                  workspaces={workspaces}
+                  setWorkspaces={setWorkspaces}
+                  setCurrentWorkspaceId={setCurrentWorkspaceId}
                 />
               }
             />
 
-
-
             <Route
-              path="/settings"
-              element={<Settings />}
+              path="/workspace/:id"
+              element={
+                <Workspace
+                  workspace={currentWorkspace}
+                  setCurrentWorkspaceId={setCurrentWorkspaceId}
+                  workspaces={workspaces}
+                  setWorkspaces={setWorkspaces}
+                />
+              }
             />
 
+            <Route path="/analytics" element={<Analytics />} />
 
-
-            <Route
-              path="/analytics"
-              element={<Analytics />}
-            />
-
-
-
-            <Route
-              path="/projects"
-              element={<Projects />}
-            />
-
-
-
+            <Route path="/settings" element={<Settings />} />
           </Routes>
-
-
-
-
-
-          <AIAssistant />
-
-
-
         </main>
-
-
-
       </div>
 
-
-
+      <AIAssistant workspace={currentWorkspace} />
     </div>
-
   );
-
 };
 
+function AuthLayout() {
+  return <LoginSignup />;
+}
 
-
-
-
-
-
-
-
-// Authentication Layout
-
-const AuthLayout = () => {
-
+export default function App() {
   return (
-
-    <LoginSignup />
-
-  );
-
-};
-
-
-
-
-
-
-
-
-
-// App
-
-const App = () => {
-
-
-  return (
-
     <Router>
-
-
       <Routes>
+        <Route path="/sign-in" element={<AuthLayout />} />
 
-
-        {/* Login */}
-
-        <Route
-          path="/sign-in"
-          element={<AuthLayout />}
-        />
-
-
-
-
-
-        {/* Dashboard */}
-
-        <Route
-          path="/*"
-          element={<DashboardLayout />}
-        />
-
-
-
+        <Route path="/*" element={<DashboardLayout />} />
       </Routes>
-
-
     </Router>
-
   );
-
-};
-
-
-
-export default App;
+}
