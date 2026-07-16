@@ -11,11 +11,18 @@ import {
   BarChart3,
   Settings,
   ArrowLeft,
+  FolderKanban,
+  Network,
+  FileText,
+  Plug,
 } from "lucide-react";
 
 export default function WorkspaceSidebar({
   activeTab,
   setActiveTab,
+  projects = [],
+  activeProjectId,
+  setActiveProjectId,
 }) {
 
   const navigate = useNavigate();
@@ -29,6 +36,11 @@ export default function WorkspaceSidebar({
       icon: LayoutDashboard,
     },
     {
+      id: "projects",
+      label: "Projects",
+      icon: FolderKanban,
+    },
+    {
       id: "employees",
       label: "Employees",
       icon: Users,
@@ -37,6 +49,16 @@ export default function WorkspaceSidebar({
       id: "tasks",
       label: "Tasks",
       icon: CheckSquare,
+    },
+    {
+      id: "workflow",
+      label: "Workflow",
+      icon: Network,
+    },
+    {
+      id: "documents",
+      label: "Documents",
+      icon: FileText,
     },
     {
       id: "departments",
@@ -49,6 +71,11 @@ export default function WorkspaceSidebar({
       icon: BarChart3,
     },
     {
+      id: "plugins",
+      label: "Plugins",
+      icon: Plug,
+    },
+    {
       id: "settings",
       label: "Settings",
       icon: Settings,
@@ -59,13 +86,16 @@ export default function WorkspaceSidebar({
 
     <aside
       className={`
-        bg-white
+        bg-slate-950
         border-r
-        border-slate-200
+        border-slate-900/80
         transition-all
         duration-300
         flex
         flex-col
+        h-full
+        text-slate-100
+        select-none
         ${
           collapsed
             ? "w-20"
@@ -76,7 +106,7 @@ export default function WorkspaceSidebar({
 
       {/* Header */}
 
-      <div className="p-5 border-b">
+      <div className="p-5 border-b border-slate-900/60">
 
         <button
           onClick={() => navigate("/projects")}
@@ -84,18 +114,20 @@ export default function WorkspaceSidebar({
             flex
             items-center
             gap-3
-            text-slate-600
-            hover:text-indigo-600
+            text-slate-400
+            hover:text-indigo-400
             transition
             cursor-pointer
+            text-xs
+            font-semibold
           "
         >
 
-          <ArrowLeft size={20} />
+          <ArrowLeft size={16} />
 
           {!collapsed && (
-            <span className="font-medium">
-              Back to Projects
+            <span>
+              All Workspaces
             </span>
           )}
 
@@ -103,9 +135,33 @@ export default function WorkspaceSidebar({
 
       </div>
 
+      {/* Project Context Selector dropdown */}
+      {!collapsed && (
+        <div className="px-5 py-4 border-b border-slate-900/60">
+          <label className="text-[9px] text-slate-500 font-bold uppercase tracking-wider block mb-1.5">Project Context</label>
+          <div className="relative flex items-center">
+            <select
+              value={activeProjectId || ""}
+              onChange={(e) => setActiveProjectId(e.target.value || null)}
+              className="w-full bg-slate-900/60 border border-slate-800/80 rounded-xl py-2 px-3 text-[11px] text-slate-200 outline-none focus:border-indigo-500 transition cursor-pointer appearance-none font-semibold pr-8"
+            >
+              <option value="">All HQ Projects</option>
+              {projects.map((p) => (
+                <option key={p._id || p.id} value={p._id || p.id}>
+                  {p.name}
+                </option>
+              ))}
+            </select>
+            <div className="absolute right-3 pointer-events-none text-[8px] text-slate-500">
+              ▼
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Navigation */}
 
-      <div className="flex-1 py-4">
+      <div className="flex-1 py-4 space-y-0.5 overflow-y-auto">
 
         {tabs.map((tab) => {
 
@@ -122,22 +178,24 @@ export default function WorkspaceSidebar({
                 items-center
                 gap-4
                 px-5
-                py-4
+                py-3.5
                 transition
                 cursor-pointer
-
+                text-xs
+                font-semibold
+                border-r-4
                 ${
                   activeTab === tab.id
-                    ? "bg-indigo-50 text-indigo-600 border-r-4 border-indigo-600"
-                    : "text-slate-600 hover:bg-slate-100"
+                    ? "bg-indigo-600/10 text-indigo-400 border-indigo-500"
+                    : "text-slate-400 hover:text-slate-200 hover:bg-slate-900/40 border-transparent"
                 }
               `}
             >
 
-              <Icon size={20} />
+              <Icon size={18} />
 
               {!collapsed && (
-                <span className="font-medium">
+                <span>
                   {tab.label}
                 </span>
               )}
@@ -152,7 +210,7 @@ export default function WorkspaceSidebar({
 
       {/* Collapse */}
 
-      <div className="border-t p-4">
+      <div className="border-t border-slate-900/80 p-4">
 
         <button
           onClick={() =>
@@ -166,20 +224,24 @@ export default function WorkspaceSidebar({
             gap-2
             py-3
             rounded-xl
-            hover:bg-slate-100
+            hover:bg-slate-900/40
+            text-slate-400
+            hover:text-slate-200
             transition
             cursor-pointer
+            text-xs
+            font-semibold
           "
         >
 
           {collapsed ? (
-            <ChevronRight />
+            <ChevronRight size={16} />
           ) : (
             <>
-              <ChevronLeft />
+              <ChevronLeft size={16} />
 
               <span>
-                Collapse
+                Collapse Panel
               </span>
             </>
           )}

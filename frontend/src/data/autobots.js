@@ -190,4 +190,15 @@ export const autobots = [
 ];
 
 
+export const autobotImages = {
+  prime,
+  bumblebee,
+  ratchet,
+  ironhide,
+  jazz,
+  mirage,
+  wheeljack,
+  arcee,
+};
+
 export default autobots;

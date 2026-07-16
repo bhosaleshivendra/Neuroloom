@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import prime from "../../src/assets/autobots/prime.png";
 
 export default function Avatar({
@@ -7,10 +8,17 @@ export default function Avatar({
 
   return (
 
-    <button
-
+    <motion.button
       onClick={onClick}
-
+      animate={{
+        y: [0, -8, 0],
+      }}
+      transition={{
+        duration: 4,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }}
+      whileHover={{ scale: 1.1 }}
       className="
         fixed
         bottom-8
@@ -21,21 +29,23 @@ export default function Avatar({
 
         rounded-full
 
-        bg-white
+        bg-slate-950/80
+        backdrop-blur-md
 
-        shadow-2xl
+        shadow-[0_0_25px_rgba(99,102,241,0.4)]
 
-        border-4
-        border-white
+        border-2
+        border-indigo-500/50
 
-        hover:scale-110
-
-        transition
-        duration-300
+        transition-shadow
+        duration-350
 
         cursor-pointer
-
-        z-40
+        group
+        z-45
+        flex
+        items-center
+        justify-center
       "
 
     >
@@ -49,11 +59,10 @@ export default function Avatar({
         alt="Prime"
 
         className="
-          w-full
-          h-full
+          w-16
+          h-16
           rounded-full
           object-contain
-          bg-slate-100
         "
 
       />
@@ -69,15 +78,15 @@ export default function Avatar({
           bottom-1
           right-1
 
-          w-5
-          h-5
+          w-4
+          h-4
 
           rounded-full
 
           bg-green-500
 
-          border-4
-          border-white
+          border-2
+          border-slate-950
         "
 
       />
@@ -104,26 +113,30 @@ export default function Avatar({
 
           rounded-xl
 
-          text-sm
+          text-[10px]
+          font-bold
 
           whitespace-nowrap
 
           opacity-0
           invisible
-
           group-hover:opacity-100
           group-hover:visible
 
-          transition
+          transition-all
+          duration-200
+          border
+          border-slate-800
+          shadow-2xl
         "
 
       >
 
-        Prime
+        Optimus Prime
 
         {workspace && (
 
-          <span className="block text-slate-400 text-xs mt-1">
+          <span className="block text-slate-500 text-[9px] mt-0.5">
 
             {workspace.name}
 
@@ -133,7 +146,7 @@ export default function Avatar({
 
       </div>
 
-    </button>
+    </motion.button>
 
   );
 

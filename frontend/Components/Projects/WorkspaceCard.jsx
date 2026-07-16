@@ -11,23 +11,26 @@ export default function WorkspaceCard({
 }) {
   const navigate = useNavigate();
 
- const openWorkspace = () => {
-  console.log("Opening workspace:", workspace.id);
-
-  setCurrentWorkspaceId(workspace.id);
-  navigate(`/workspace/${workspace.id}`);
-};
+  const openWorkspace = () => {
+    const targetId = workspace._id || workspace.id;
+    console.log("Opening workspace:", targetId);
+    setCurrentWorkspaceId(targetId);
+    navigate(`/workspace/${targetId}`);
+  };
 
   return (
     <div
       className="
-        bg-white
+        bg-slate-900/60
+        backdrop-blur-md
         rounded-3xl
         shadow-sm
         border
-        border-slate-200
+        border-slate-800/80
         p-6
+        hover:shadow-indigo-500/10
         hover:shadow-xl
+        hover:border-slate-700/80
         transition
         duration-300
       "
@@ -41,7 +44,9 @@ export default function WorkspaceCard({
             w-14
             h-14
             rounded-2xl
-            bg-indigo-100
+            bg-indigo-950/40
+            border
+            border-indigo-500/20
             flex
             items-center
             justify-center
@@ -49,17 +54,17 @@ export default function WorkspaceCard({
         >
           <Building2
             size={28}
-            className="text-indigo-600"
+            className="text-indigo-400"
           />
         </div>
 
         <div>
 
-          <h2 className="text-xl font-bold text-slate-900">
+          <h2 className="text-xl font-bold text-slate-100">
             {workspace.name}
           </h2>
 
-          <p className="text-slate-500">
+          <p className="text-slate-400">
             {workspace.company}
           </p>
 
@@ -73,19 +78,19 @@ export default function WorkspaceCard({
 
         <Users
           size={18}
-          className="text-slate-500"
+          className="text-slate-400"
         />
 
-        <span className="text-slate-700 font-medium">
-          {workspace.employees.length} Employees
+        <span className="text-slate-300 font-medium">
+          {(workspace.employees || []).length} Employees
         </span>
 
       </div>
 
       <div className="mt-3 flex items-center gap-3">
 
-        <span className="text-slate-700 font-medium">
-          {workspace.tasks.length} Active Tasks
+        <span className="text-slate-300 font-medium">
+          Active Tasks and Command Nodes configured.
         </span>
 
       </div>
