@@ -12,7 +12,7 @@ import {
 import api from "../../../src/utils/axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../../src/context/AuthContext";
+import { useAuth } from "../../../src/context/AuthContext.jsx";
 
 import LoadingScreen from "../LoadingScreen";
 
@@ -83,7 +83,7 @@ export default function LoginSignup() {
 
     try {
       const response = await api.post(
-        `${import.meta.env.VITE_API_URL}/api/auth/login`,
+        "/api/auth/login",
         {
           email,
           password,

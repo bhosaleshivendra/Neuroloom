@@ -18,9 +18,9 @@ import LoginSignup from "../Components/Pages/LoginSignup";
 
 import AIAssistant from "../Components/AIAssistant";
 
-import { useAuth, AuthProvider } from "../src/context/AuthContext";
+import { useAuth, AuthProvider } from "./context/AuthContext.jsx";
 
-import prime from "../src/assets/autobots/prime.png";
+import prime from "./assets/autobots/prime.png";
 
 function DashboardLayout() {
 
